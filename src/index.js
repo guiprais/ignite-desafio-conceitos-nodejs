@@ -16,7 +16,7 @@ function checksExistsUserAccount(request, response, next) {
   const user = users.find((user) => user.username === username);
 
   if (!user) {
-    return response.status(404).json({ error: "User not found" });
+    return response.status(400).json({ error: "User not found" });
   }
 
   request.user = user;
@@ -30,7 +30,7 @@ app.post("/users", (request, response) => {
   const getUser = users.find((user) => user.username === username);
 
   if (getUser) {
-    return response.status(404).json({ error: "User already exists" });
+    return response.status(400).json({ error: "User already exists" });
   }
 
   const user = {
