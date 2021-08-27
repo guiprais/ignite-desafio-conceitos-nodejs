@@ -60,16 +60,25 @@ app.post("/todos", checksExistsUserAccount, (request, response) => {
     title,
     done: false,
     deadline: new Date(deadline),
-    createdAt: new Date(),
+    created_at: new Date(),
   };
 
-  user.todos = [...user.todos, userTodo];
+  user.todos.push(userTodo);
 
   return response.status(201).json(userTodo);
 });
 
 app.put("/todos/:id", checksExistsUserAccount, (request, response) => {
-  // Complete aqui
+  const { user } = request;
+  const { id } = request.params;
+  const { title, deadline } = request.body;
+
+  let todo = user.todos.find((todo) => todo.id === id);
+
+  todo.title = title;
+  todo.deadline = new Date(deadline);
+
+  return response.status(201).json(todo);
 });
 
 app.patch("/todos/:id/done", checksExistsUserAccount, (request, response) => {
